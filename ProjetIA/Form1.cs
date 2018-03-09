@@ -65,6 +65,7 @@ namespace ProjetIA
                 for (int i = 0; i < 20; i++)
                 {
                     tableauImage[k, i].BackColor = Obstacles.chercheObstacle(k, i) ? Color.Black : Color.White;
+                    tableauImage[k, i].Image=null;
                 }
             }
         }
@@ -99,6 +100,14 @@ namespace ProjetIA
             tableauImage[comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1].BackColor = Color.Green;
             tableauImage[comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1].ImageLocation = @"../../Link.png";
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form4points nouvForm = new Form4points();
+            this.Hide();
+            nouvForm.ShowDialog();
+            this.Close();
         }
     }
 }

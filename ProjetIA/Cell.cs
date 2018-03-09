@@ -26,7 +26,8 @@ namespace ProjetIA
         }
         public override double GetArcCost(GenericNode N2)
         {
-            return 1;
+            Cell N2Cell = (Cell)N2;
+            return (Math.Sqrt(Math.Pow(N2Cell.X - this.X, 2) + Math.Pow(N2Cell.Y - this.Y, 2)));
         }
         public override bool EndState()
         {
@@ -44,10 +45,11 @@ namespace ProjetIA
         }
         public override double CalculeHCost()
         {
-            //return 0;
-
+           // return 0;
             //Distance de manhattan
             return Math.Abs(this.X - Form1.arrivee.X) + Math.Abs(this.Y - Form1.arrivee.Y);
+            //Dist Eucl
+            //return (Math.Sqrt(Math.Pow(Form1.arrivee.X - this.X, 2) + Math.Pow(Form1.arrivee.Y - this.Y, 2)));
 
 
         }
