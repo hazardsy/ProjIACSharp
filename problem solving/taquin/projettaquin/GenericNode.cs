@@ -33,6 +33,11 @@ namespace projettaquin
             GCost = g;
         }
 
+        public void SetHCost(double h)
+        {
+            HCost = h;
+        }
+
         public double Estimation()
         {
             return HCost;

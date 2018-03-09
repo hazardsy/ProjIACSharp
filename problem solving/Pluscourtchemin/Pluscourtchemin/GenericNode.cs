@@ -33,10 +33,17 @@ namespace Pluscourtchemin
             GCost = g;
         }
 
+        public void SetHCost(double h)
+        {
+            HCost = h;
+        }
+
         public double Estimation()
         {
             return HCost;
         }
+
+        
 
 
         public double Cout_Total
