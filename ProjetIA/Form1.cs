@@ -13,15 +13,19 @@ namespace ProjetIA
     public partial class Form1 : Form
     {
         private const int tailleCase = 25;
+        PictureBox[,] tableauImage = new PictureBox[20, 20];
+        public static List<Cell>  listeNoeuds = new List<Cell>();
+        public static Cell depart;
+        public static Cell arrivee;
         public Form1()
         {
             InitializeComponent();
             this.BackColor = Color.PapayaWhip;
             PictureBox fond = new PictureBox();
             fond.Size = new Size(20 * (tailleCase + 1) - 1, 20 * (tailleCase + 1) - 1);
+            fond.Top = 40;
             fond.BackColor = Color.Black;
             this.Controls.Add(fond);
-            PictureBox[,] tableauImage = new PictureBox[20,20];
             for (int k = 0; k < 20; k++)
             {
                 for (int i = 0; i < 20; i++)
@@ -33,7 +37,11 @@ namespace ProjetIA
                     tableauImage[k, i].Width = tailleCase;
                     bool temp = Obstacles.chercheObstacle(k, i);
                     tableauImage[k, i].BackColor = Obstacles.chercheObstacle(k,i)?Color.Black:Color.White;
-                    tableauImage[k, i].Top = k*(tailleCase+1);
+                    if(!Obstacles.chercheObstacle(k,i))
+                    {
+                        listeNoeuds.Add(new Cell(k, i));
+                    }
+                    tableauImage[k, i].Top = k*(tailleCase+1)+40;
                     tableauImage[k, i].Left = i*(tailleCase+1);
                     tableauImage[k, i].Show();
 
@@ -43,24 +51,53 @@ namespace ProjetIA
             fond.SendToBack();
             this.ClientSize = new Size(20 * (tailleCase + 1)-1, 20 * (tailleCase + 1)-1+40);
 
-            /*foreach(DataGridCell in )
-                DataGridCell.X,Cell,Y
-            tableauImage[15, 12].BackColor = Color.Black;*/
-
+            comboBoxArriveeX.SelectedIndex = 15;
+            comboBoxArriveeY.SelectedIndex = 16;
+            comboBoxDepartX.SelectedIndex = 2;
+            comboBoxDepartY.SelectedIndex = 1;
+            arrivee = new Cell(17, 18);
+            depart = new Cell(4, 3);
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void reInitTableau()
         {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            for (int k = 0; k < 20; k++)
+            {
+                for (int i = 0; i < 20; i++)
+                {
+                    tableauImage[k, i].BackColor = Obstacles.chercheObstacle(k, i) ? Color.Black : Color.White;
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            reInitTableau();
+            Cell caseDepart = new Cell(comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1);
+            if (!Obstacles.chercheObstacle(caseDepart))
+            {
+
+                arrivee = new Cell(comboBoxArriveeX.SelectedIndex + 1, comboBoxArriveeY.SelectedIndex + 1);
+                depart = new Cell(comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1);
+
+                Graph G = new Graph();
+
+                List<GenericNode> solution = G.RechercheSolutionAEtoile(depart);
+                List<GenericNode> fermes = G.L_Fermes;
+                foreach(GenericNode c in fermes)
+                {
+                    Cell cBis = (Cell)c;
+                    tableauImage[cBis.X, cBis.Y].BackColor = Color.LightSteelBlue;
+                }
+                foreach (GenericNode c in solution)
+                {
+                    Cell cBis = (Cell)c;
+                    tableauImage[cBis.X, cBis.Y].BackColor = Color.Blue;
+                }
+            }
+            tableauImage[comboBoxArriveeX.SelectedIndex + 1, comboBoxArriveeY.SelectedIndex + 1].BackColor = Color.Red;
+            tableauImage[comboBoxArriveeX.SelectedIndex + 1, comboBoxArriveeY.SelectedIndex + 1].ImageLocation = @"../../Zelda.png";
+            tableauImage[comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1].BackColor = Color.Green;
+            tableauImage[comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1].ImageLocation = @"../../Link.png";
 
         }
     }

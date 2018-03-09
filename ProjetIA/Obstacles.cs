@@ -52,5 +52,9 @@ namespace ProjetIA
             List<Cell> temp = GetObstacles();
             return GetObstacles().Exists(cell => (cell.X == x && cell.Y == y));
         }
+        public static bool chercheObstacle(Cell c)
+        {
+            return chercheObstacle(c.X, c.Y);
+        }
     }
 }

@@ -29,15 +29,17 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.comboBoxArriveeX = new System.Windows.Forms.ComboBox();
+            this.comboBoxDepartX = new System.Windows.Forms.ComboBox();
+            this.comboBoxDepartY = new System.Windows.Forms.ComboBox();
+            this.comboBoxArriveeY = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(345, 529);
+            this.button1.Location = new System.Drawing.Point(413, 10);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(66, 23);
             this.button1.TabIndex = 0;
@@ -45,10 +47,10 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // comboBox1
+            // comboBoxArriveeX
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxArriveeX.FormattingEnabled = true;
+            this.comboBoxArriveeX.Items.AddRange(new object[] {
             "2",
             "3",
             "4",
@@ -67,16 +69,16 @@
             "17",
             "18",
             "19"});
-            this.comboBox1.Location = new System.Drawing.Point(190, 531);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(40, 21);
-            this.comboBox1.TabIndex = 1;
+            this.comboBoxArriveeX.Location = new System.Drawing.Point(281, 12);
+            this.comboBoxArriveeX.Name = "comboBoxArriveeX";
+            this.comboBoxArriveeX.Size = new System.Drawing.Size(40, 21);
+            this.comboBoxArriveeX.TabIndex = 1;
             // 
-            // comboBox2
+            // comboBoxDepartX
             // 
-            this.comboBox2.CausesValidation = false;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.comboBoxDepartX.CausesValidation = false;
+            this.comboBoxDepartX.FormattingEnabled = true;
+            this.comboBoxDepartX.Items.AddRange(new object[] {
             "2",
             "3",
             "4",
@@ -95,16 +97,16 @@
             "17",
             "18",
             "19"});
-            this.comboBox2.Location = new System.Drawing.Point(72, 531);
-            this.comboBox2.MaxDropDownItems = 19;
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(40, 21);
-            this.comboBox2.TabIndex = 2;
+            this.comboBoxDepartX.Location = new System.Drawing.Point(80, 12);
+            this.comboBoxDepartX.MaxDropDownItems = 19;
+            this.comboBoxDepartX.Name = "comboBoxDepartX";
+            this.comboBoxDepartX.Size = new System.Drawing.Size(40, 21);
+            this.comboBoxDepartX.TabIndex = 2;
             // 
-            // comboBox3
+            // comboBoxDepartY
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.comboBoxDepartY.FormattingEnabled = true;
+            this.comboBoxDepartY.Items.AddRange(new object[] {
             "2",
             "3",
             "4",
@@ -123,15 +125,15 @@
             "17",
             "18",
             "19"});
-            this.comboBox3.Location = new System.Drawing.Point(118, 531);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(40, 21);
-            this.comboBox3.TabIndex = 3;
+            this.comboBoxDepartY.Location = new System.Drawing.Point(126, 12);
+            this.comboBoxDepartY.Name = "comboBoxDepartY";
+            this.comboBoxDepartY.Size = new System.Drawing.Size(40, 21);
+            this.comboBoxDepartY.TabIndex = 3;
             // 
-            // comboBox4
+            // comboBoxArriveeY
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
+            this.comboBoxArriveeY.FormattingEnabled = true;
+            this.comboBoxArriveeY.Items.AddRange(new object[] {
             "2",
             "3",
             "4",
@@ -150,34 +152,57 @@
             "17",
             "18",
             "19"});
-            this.comboBox4.Location = new System.Drawing.Point(236, 531);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(40, 21);
-            this.comboBox4.TabIndex = 4;
+            this.comboBoxArriveeY.Location = new System.Drawing.Point(327, 12);
+            this.comboBoxArriveeY.Name = "comboBoxArriveeY";
+            this.comboBoxArriveeY.Size = new System.Drawing.Size(40, 21);
+            this.comboBoxArriveeY.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(229, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Arrivée :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(29, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Départ :";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(674, 635);
-            this.Controls.Add(this.comboBox4);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxArriveeY);
+            this.Controls.Add(this.comboBoxDepartY);
+            this.Controls.Add(this.comboBoxDepartX);
+            this.Controls.Add(this.comboBoxArriveeX);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox comboBoxArriveeX;
+        private System.Windows.Forms.ComboBox comboBoxDepartX;
+        private System.Windows.Forms.ComboBox comboBoxDepartY;
+        private System.Windows.Forms.ComboBox comboBoxArriveeY;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
