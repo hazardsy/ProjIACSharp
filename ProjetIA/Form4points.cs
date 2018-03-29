@@ -16,7 +16,9 @@ namespace ProjetIA
         PictureBox[,] tableauImage = new PictureBox[20, 20];
         public static List<Cell> listeNoeuds = new List<Cell>();
         public static Cell depart;
-        public static Cell arrivee;
+        public static double[,] distances;
+        public static Cell[] allPoints;
+
         public Form4points()
         {
             InitializeComponent();
@@ -51,11 +53,21 @@ namespace ProjetIA
             fond.SendToBack();
             this.ClientSize = new Size(20 * (tailleCase + 1) - 1, 20 * (tailleCase + 1) - 1 + 60);
 
-            comboBoxArriveeX.SelectedIndex = 15;
-            comboBoxArriveeY.SelectedIndex = 16;
+            comboBoxPoint1Y.SelectedIndex = 0;
+            comboBoxPoint1X.SelectedIndex = 6;
+
+            comboBoxPoint2Y.SelectedIndex = 0;
+            comboBoxPoint2X.SelectedIndex = 7;
+
+            comboBoxPoint3Y.SelectedIndex = 1;
+            comboBoxPoint3X.SelectedIndex = 7;
+
+            comboBoxPoint4Y.SelectedIndex = 2;
+            comboBoxPoint4X.SelectedIndex = 7;
+
             comboBoxDepartX.SelectedIndex = 2;
             comboBoxDepartY.SelectedIndex = 1;
-            arrivee = new Cell(17, 18);
+
             depart = new Cell(4, 3);
         }
         private void reInitTableau()
@@ -65,18 +77,127 @@ namespace ProjetIA
                 for (int i = 0; i < 20; i++)
                 {
                     tableauImage[k, i].BackColor = Obstacles.chercheObstacle(k, i) ? Color.Black : Color.White;
+                    tableauImage[k, i].Image = null;
                 }
             }
         }
-        private void button2_Click_1(object sender, EventArgs e)
+
+        private List<GenericNode> getBestPath(Cell depart, Cell arrivee, out double cost)
         {
-            Form1 nouvForm = new Form1();
+            Graph G = new Graph();
+
+            Cell.Arrivee = arrivee;
+
+            List<GenericNode> solution = G.RechercheSolutionAEtoile(depart);
+
+            cost = 0;
+            for (int i = 1; i < solution.Count; i++)
+            {
+                cost += solution.ElementAt(i - 1).GetArcCost(solution.ElementAt(i));
+            }
+
+            return solution;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            reInitTableau();
+            Cell caseDepart = new Cell(comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1);
+            List<Cell> points = new List<Cell>();
+
+            if (!Obstacles.chercheObstacle(caseDepart))
+            {
+                points.Add(new Cell(comboBoxPoint1X.SelectedIndex + 1, comboBoxPoint1Y.SelectedIndex + 1));
+                points.Add(new Cell(comboBoxPoint2X.SelectedIndex + 1, comboBoxPoint2Y.SelectedIndex + 1));
+                points.Add(new Cell(comboBoxPoint3X.SelectedIndex + 1, comboBoxPoint3Y.SelectedIndex + 1));
+                points.Add(new Cell(comboBoxPoint4X.SelectedIndex + 1, comboBoxPoint4Y.SelectedIndex + 1));
+
+                depart = new Cell(comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1);
+
+                allPoints = new Cell[points.Count + 1];
+                allPoints[0] = depart;
+                for (int i = 0; i < points.Count; i++)
+                {
+                    allPoints[i + 1] = points[i];
+                }
+
+                distances = new double[allPoints.Length, allPoints.Length];
+                List<GenericNode>[,] paths = new List<GenericNode>[allPoints.Length, allPoints.Length];
+
+                for (int i = 0; i < allPoints.Length; i++)
+                {
+                    for (int j = 0; j < i; j++)
+                    {
+                        double cost = 0;
+                        List<GenericNode> bestPath = getBestPath(allPoints[i], allPoints[j], out cost);
+
+                        distances[i, j] = cost;
+                        distances[j, i] = cost;
+                        paths[i, j] = bestPath;
+                        bestPath.Reverse();
+                        paths[j, i] = bestPath;
+                    }
+                }
+
+                Point.Arrivee = depart;
+                Cell[] startingPath = new Cell[] { depart };
+                Point startingPoint = new Point(startingPath, allPoints);
+                Graph G = new Graph();
+
+                List<GenericNode> solution = G.RechercheSolutionAEtoile(startingPoint);
+
+                List<GenericNode> usableSolution = new List<GenericNode>();
+
+                Point lastNode = (Point)solution.Last();
+                for (int i = 1; i < lastNode.Traverses.Length; i++)
+                {
+                    int previousIndex = Array.FindIndex(allPoints, n => n.IsEqual(lastNode.Traverses[i - 1]));
+                    int nextIndex = Array.FindIndex(allPoints, n => n.IsEqual(lastNode.Traverses[i]));
+                    usableSolution = usableSolution.Concat(paths[previousIndex, nextIndex]).ToList();
+                }
+
+                foreach (GenericNode c in usableSolution)
+                {
+                    Cell c2 = (Cell)c;
+                    tableauImage[c2.X, c2.Y].BackColor = Color.Blue;
+                }
+
+                /*Graph G = new Graph();
+
+                List<GenericNode> solution = G.RechercheSolutionAEtoile(depart);
+                List<GenericNode> fermes = G.L_Fermes;
+                foreach (GenericNode c in fermes)
+                {
+                    Cell cBis = (Cell)c;
+                    tableauImage[cBis.X, cBis.Y].BackColor = Color.LightSteelBlue;
+                }
+                foreach (GenericNode c in solution)
+                {
+                    Cell cBis = (Cell)c;
+                    tableauImage[cBis.X, cBis.Y].BackColor = Color.Blue;
+                }*/
+
+                for (int i = 0; i < points.Count; i++)
+                {
+                    Cell c = points.ElementAt(i);
+                    tableauImage[c.X, c.Y].BackColor = Color.BlueViolet;
+                    tableauImage[c.X, c.Y].ImageLocation = @"../../Element" + (i + 1).ToString() + ".png";
+                }
+
+                tableauImage[depart.X, depart.Y].BackColor = Color.Green;
+                tableauImage[depart.X, depart.Y].ImageLocation = @"../../Link.png";
+            }
+
+
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form1 nouvForm2 = new Form1();
             this.Hide();
-            nouvForm.ShowDialog();
+            nouvForm2.ShowDialog();
             this.Close();
         }
-        
     }
-
-    
 }

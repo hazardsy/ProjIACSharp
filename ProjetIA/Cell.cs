@@ -9,7 +9,8 @@ namespace ProjetIA
 {
     public class Cell :GenericNode
 
-    {
+    { 
+        public static Cell Arrivee { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
 
@@ -31,7 +32,7 @@ namespace ProjetIA
         }
         public override bool EndState()
         {
-            return this.IsEqual(Form1.arrivee);
+            return this.IsEqual(Cell.Arrivee);
         }
         public override List<GenericNode> GetListSucc()
         {
@@ -50,8 +51,6 @@ namespace ProjetIA
             return Math.Abs(this.X - Form1.arrivee.X) + Math.Abs(this.Y - Form1.arrivee.Y);
             //Dist Eucl
             //return (Math.Sqrt(Math.Pow(Form1.arrivee.X - this.X, 2) + Math.Pow(Form1.arrivee.Y - this.Y, 2)));
-
-
         }
     }
 }

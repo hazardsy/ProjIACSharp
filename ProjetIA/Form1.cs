@@ -80,6 +80,8 @@ namespace ProjetIA
                 arrivee = new Cell(comboBoxArriveeX.SelectedIndex + 1, comboBoxArriveeY.SelectedIndex + 1);
                 depart = new Cell(comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1);
 
+                Cell.Arrivee = arrivee;
+
                 Graph G = new Graph();
 
                 List<GenericNode> solution = G.RechercheSolutionAEtoile(depart);
@@ -95,10 +97,10 @@ namespace ProjetIA
                     tableauImage[cBis.X, cBis.Y].BackColor = Color.Blue;
                 }
             }
-            tableauImage[comboBoxArriveeX.SelectedIndex + 1, comboBoxArriveeY.SelectedIndex + 1].BackColor = Color.Red;
-            tableauImage[comboBoxArriveeX.SelectedIndex + 1, comboBoxArriveeY.SelectedIndex + 1].ImageLocation = @"../../Zelda.png";
-            tableauImage[comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1].BackColor = Color.Green;
-            tableauImage[comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1].ImageLocation = @"../../Link.png";
+            tableauImage[arrivee.X, arrivee.Y].BackColor = Color.Red;
+            tableauImage[arrivee.X, arrivee.Y].ImageLocation = @"../../Zelda.png";
+            tableauImage[depart.X, depart.Y].BackColor = Color.Green;
+            tableauImage[depart.X, depart.Y].ImageLocation = @"../../Link.png";
 
         }
 
