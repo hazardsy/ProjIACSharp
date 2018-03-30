@@ -70,6 +70,8 @@ namespace ProjetIA
 
             depart = new Cell(4, 3);
         }
+
+        //Remet l'affichage à zéro
         private void reInitTableau()
         {
             for (int k = 0; k < 20; k++)
@@ -82,6 +84,7 @@ namespace ProjetIA
             }
         }
 
+        //Retourne le chemin le plus court entre depart et arrivée, avec le cout de ce chemin en valeur de sortie supplémentaire
         private List<GenericNode> getBestPath(Cell depart, Cell arrivee, out double cost)
         {
             Graph G = new Graph();
@@ -114,6 +117,7 @@ namespace ProjetIA
 
                 depart = new Cell(comboBoxDepartX.SelectedIndex + 1, comboBoxDepartY.SelectedIndex + 1);
 
+                //Tous les points dans un tableau (dont le départ)
                 allPoints = new Cell[points.Count + 1];
                 allPoints[0] = depart;
                 for (int i = 0; i < points.Count; i++)
@@ -121,31 +125,38 @@ namespace ProjetIA
                     allPoints[i + 1] = points[i];
                 }
 
+                //distances[i,j] = longueur la plus courte entre allPoints[i] et allPoints[j]
                 distances = new double[allPoints.Length, allPoints.Length];
+
+                //paths[i,j] = chemin le plus court entre allPoints[i] et allPoints[j]
                 List<GenericNode>[,] paths = new List<GenericNode>[allPoints.Length, allPoints.Length];
 
                 for (int i = 0; i < allPoints.Length; i++)
                 {
-                    for (int j = 0; j < i; j++)
+                    for (int j = i; j < allPoints.Length; j++)
                     {
                         double cost = 0;
                         List<GenericNode> bestPath = getBestPath(allPoints[i], allPoints[j], out cost);
 
                         distances[i, j] = cost;
                         distances[j, i] = cost;
-                        paths[i, j] = bestPath;
+                        paths[i, j] = new List<GenericNode>(bestPath);
                         bestPath.Reverse();
                         paths[j, i] = bestPath;
+
                     }
                 }
 
                 Point.Arrivee = depart;
+
                 Cell[] startingPath = new Cell[] { depart };
                 Point startingPoint = new Point(startingPath, allPoints);
+
                 Graph G = new Graph();
 
                 List<GenericNode> solution = G.RechercheSolutionAEtoile(startingPoint);
 
+                //Récupération de la solution en termes de cellules pour l'affichage
                 List<GenericNode> usableSolution = new List<GenericNode>();
 
                 Point lastNode = (Point)solution.Last();
@@ -156,26 +167,12 @@ namespace ProjetIA
                     usableSolution = usableSolution.Concat(paths[previousIndex, nextIndex]).ToList();
                 }
 
+                //Affichage
                 foreach (GenericNode c in usableSolution)
                 {
                     Cell c2 = (Cell)c;
                     tableauImage[c2.X, c2.Y].BackColor = Color.Blue;
                 }
-
-                /*Graph G = new Graph();
-
-                List<GenericNode> solution = G.RechercheSolutionAEtoile(depart);
-                List<GenericNode> fermes = G.L_Fermes;
-                foreach (GenericNode c in fermes)
-                {
-                    Cell cBis = (Cell)c;
-                    tableauImage[cBis.X, cBis.Y].BackColor = Color.LightSteelBlue;
-                }
-                foreach (GenericNode c in solution)
-                {
-                    Cell cBis = (Cell)c;
-                    tableauImage[cBis.X, cBis.Y].BackColor = Color.Blue;
-                }*/
 
                 for (int i = 0; i < points.Count; i++)
                 {

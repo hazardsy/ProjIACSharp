@@ -46,11 +46,14 @@ namespace ProjetIA
         }
         public override double CalculeHCost()
         {
-           // return 0;
+            //Pas d'heuristique = Dijkstra
+            //return 0;
+
             //Distance de manhattan
-            return Math.Abs(this.X - Form1.arrivee.X) + Math.Abs(this.Y - Form1.arrivee.Y);
-            //Dist Eucl
-            //return (Math.Sqrt(Math.Pow(Form1.arrivee.X - this.X, 2) + Math.Pow(Form1.arrivee.Y - this.Y, 2)));
+            //return Math.Abs(this.X - Form1.arrivee.X) + Math.Abs(this.Y - Form1.arrivee.Y);
+
+            //Dist Euclidienne
+            return (Math.Sqrt(Math.Pow(Cell.Arrivee.X - this.X, 2) + Math.Pow(Cell.Arrivee.Y - this.Y, 2)));
         }
     }
 }
